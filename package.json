@@ -1,0 +1,34 @@
+{
+  "name": "react-history-state",
+  "version": "1.0.0",
+  "description": "React hook for managing state history",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/elltja/react-history-state.git"
+  },
+  "keywords": [
+    "react",
+    "hook",
+    "history",
+    "state",
+    "undo",
+    "redo"
+  ],
+  "author": "elltja",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/elltja/react-history-state/issues"
+  },
+  "homepage": "https://github.com/elltja/react-history-state#readme",
+  "devDependencies": {
+    "@types/react": "^19.0.8"
+  },
+  "dependencies": {
+    "react": "^19.0.0"
+  }
+}
