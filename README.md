@@ -1,6 +1,28 @@
 # React history state
 
-React history state is an extension of reacts built in useState. As the name says, it's used for managing history of a state in react. 
+React History State is an extension of React's built-in `useState` hook. As the name suggests, it helps manage state history in React, allowing you to easily undo and redo state changes
+
+
+
+## Features
+
+- Simple state management with useState-like API
+- Undo and redo functionality
+- Clear history support
+- TypeScript support with full type safety
+
+
+
+## Installation
+Install using npm:
+
+```bash
+
+npm install react-history-state
+
+```
+
+
 
 ## Usage example
 
@@ -9,17 +31,24 @@ React history state is an extension of reacts built in useState. As the name say
 import { useHistoryState } from 'react-history-state'
 
 export default function App() {
-    const [text, setText, undo, redo] = useHistoryState('');
+    const [text, setText, undo, redo, clear] = useHistoryState('');
 
     return (
-        <input 
+        <input
+            type="text"
             value={text}
             onChange={(e) => setText(e.target.value)} 
         />
         <button onClick={undo}>Undo<button>
         <button onClick={redo}>Redo<button>
+        <button onClick={clear}>Clear<button>
     )
 
 }
 
 ```
+
+
+## License
+
+MIT
