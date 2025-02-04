@@ -31,19 +31,20 @@ npm install react-history-state
 import { useHistoryState } from 'react-history-state'
 
 export default function App() {
-    const [text, setText, undo, redo, clear] = useHistoryState('');
+  const [text, setText, undo, redo, clear] = useHistoryState('');
 
-    return (
-        <input
-            type="text"
-            value={text}
-            onChange={(e) => setText(e.target.value)} 
-        />
-        <button onClick={undo}>Undo<button>
-        <button onClick={redo}>Redo<button>
-        <button onClick={clear}>Clear<button>
-    )
-
+  return (
+    <>
+      <input
+        type="text"
+        value={text}
+        onChange={(e) => setText(e.target.value)}
+      />
+      <button onClick={undo}>Undo</button>
+      <button onClick={redo}>Redo</button>
+      <button onClick={clear}>Clear</button>
+    </>
+  )
 }
 
 ```
