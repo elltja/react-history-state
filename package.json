@@ -1,5 +1,5 @@
 {
-  "name": "react-history-state",
+  "name": "react-state-history",
   "version": "1.0.0",
   "description": "React hook for managing state history",
   "main": "dist/index.js",

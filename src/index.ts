@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export function useHistoryState<T>(
+export function useStateHistory<T>(
   initialState: T
 ): [
   T,
