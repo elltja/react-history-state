@@ -50,6 +50,24 @@ export default function App() {
 ```
 
 
+
+## Options
+
+```js
+
+// throttle
+  const [state, setState, undo, redo] = useHistoryState('', {
+    throttle: 250 // Updates history once every 250 milliseconds
+  });
+
+// commitEvery
+  const [state, setState, undo, redo] = useHistoryState('', {
+    commitEvery: 5 // Updates the history once every 5 state changes
+  });
+
+```
+
+
 ## License
 
 MIT
