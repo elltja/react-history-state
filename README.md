@@ -10,7 +10,7 @@ React History State is an extension of React's built-in `useState` hook. As the 
 - Undo and redo functionality
 - Clear history support
 - TypeScript support with full type safety
-
+- Options for throttling, debouncing, and time-based or count-based commits
 
 
 ## Installation
@@ -50,6 +50,19 @@ export default function App() {
 ```
 
 
+## Typescript
+
+```js
+
+const [count, setCount, undo, redo] = useHistoryState<number>(0);
+
+setCount(1) // Works
+
+setCount('2') // Type error
+
+```
+
+
 
 ## Options
 
@@ -57,7 +70,12 @@ export default function App() {
 
 // throttle
   const [state, setState, undo, redo] = useHistoryState('', {
-    throttle: 250 // Updates history once every 250 milliseconds
+    throttle: 500 // Updates history at most every 500 milliseconds
+  });
+
+  // debounce
+  const [state, setState, undo, redo] = useHistoryState('', {
+    debounce: 500 // Updates history 500 milliseconds after inactivity
   });
 
 // commitEvery
@@ -66,7 +84,6 @@ export default function App() {
   });
 
 ```
-
 
 ## License
 

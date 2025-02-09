@@ -1,8 +1,9 @@
 import { useRef, useState } from "react";
 
 type Options = {
-  throttle?: number;
   commitEvery?: number;
+  throttle?: number;
+  debounce?: number;
 };
 
 export function useHistoryState<T>(
@@ -15,13 +16,15 @@ export function useHistoryState<T>(
   () => void,
   () => void
 ] {
-  const { throttle = 0, commitEvery = 1 } = options;
+  const { throttle = 0, debounce = 0, commitEvery = 1 } = options;
   const [_state, _setState] = useState<T>(initialState);
   const [_history, _setHistory] = useState<T[]>([initialState]);
   const [_historyIndex, _setHistoryIndex] = useState<number>(0);
+  const [shouldWait, setShouldWait] = useState<boolean>(false);
+  const [debounceTimeout, setDebounceTimeout] = useState<ReturnType<
+    typeof setTimeout
+  > | null>(null);
 
-  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const latestStateRef = useRef<T>(initialState);
   const changeCounter = useRef(0);
 
   function updateHistory(newVal: T) {
@@ -42,15 +45,23 @@ export function useHistoryState<T>(
         ? (setter as (prevState: T) => T)(_state)
         : setter;
 
-    latestStateRef.current = newVal;
     _setState(newVal);
 
     changeCounter.current += 1;
 
-    if (throttle > 0) {
-      if (timeoutRef.current) clearTimeout(timeoutRef.current);
-      timeoutRef.current = setTimeout(() => {
-        updateHistory(latestStateRef.current);
+    if (debounce > 0) {
+      debounceTimeout && clearTimeout(debounceTimeout);
+      setDebounceTimeout(
+        setTimeout(() => {
+          if (changeCounter.current >= commitEvery) updateHistory(newVal);
+        }, debounce)
+      );
+    } else if (throttle > 0) {
+      if (shouldWait) return;
+      if (changeCounter.current >= commitEvery) updateHistory(newVal);
+      setShouldWait(true);
+      setTimeout(() => {
+        setShouldWait(false);
       }, throttle);
     } else {
       if (changeCounter.current >= commitEvery) updateHistory(newVal);
