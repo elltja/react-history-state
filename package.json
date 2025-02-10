@@ -26,9 +26,10 @@
   },
   "homepage": "https://github.com/elltja/react-history-state#readme",
   "devDependencies": {
-    "@types/react": "^19.0.8"
+    "@types/react": "^19.0.8",
+    "react": "^19.0.0"
   },
   "dependencies": {
-    "react": "^19.0.0"
+    
   }
 }

@@ -31,7 +31,7 @@ npm install react-history-state
 import { useHistoryState } from 'react-history-state'
 
 export default function App() {
-  const [text, setText, undo, redo, clear] = useHistoryState('');
+  const [text, setText, undo, redo] = useHistoryState('');
 
   return (
     <>
@@ -42,7 +42,6 @@ export default function App() {
       />
       <button onClick={undo}>Undo</button>
       <button onClick={redo}>Redo</button>
-      <button onClick={clear}>Clear</button>
     </>
   )
 }
@@ -68,20 +67,35 @@ setCount('2') // Type error
 
 ```js
 
+// maxHistory
+const [state, setState, undo, redo] = useHistoryState(0, {
+    maxHistory: 75 // Older history entries get dropped once maxHistory is reached.
+  });
+
 // throttle
-  const [state, setState, undo, redo] = useHistoryState('', {
+  const [state, setState, undo, redo] = useHistoryState(0, {
     throttle: 500 // Updates history at most every 500 milliseconds
   });
 
   // debounce
-  const [state, setState, undo, redo] = useHistoryState('', {
+  const [state, setState, undo, redo] = useHistoryState(0, {
     debounce: 500 // Updates history 500 milliseconds after inactivity
   });
 
 // commitEvery
-  const [state, setState, undo, redo] = useHistoryState('', {
+  const [state, setState, undo, redo] = useHistoryState(0, {
     commitEvery: 5 // Updates the history once every 5 state changes
   });
+
+```
+
+## Clear history
+
+```js
+
+const [state, setState, undo, redo, clear] = useHistoryState('');
+
+clear() // Clears the history of the state
 
 ```
 

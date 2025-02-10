@@ -4,6 +4,7 @@ type Options = {
   commitEvery?: number;
   throttle?: number;
   debounce?: number;
+  maxHistory?: number;
 };
 
 export function useHistoryState<T>(
@@ -16,7 +17,13 @@ export function useHistoryState<T>(
   () => void,
   () => void
 ] {
-  const { throttle = 0, debounce = 0, commitEvery = 1 } = options;
+  const {
+    throttle = 0,
+    debounce = 0,
+    commitEvery = 1,
+    maxHistory = Infinity,
+  } = options;
+
   const [_state, _setState] = useState<T>(initialState);
   const [_history, _setHistory] = useState<T[]>([initialState]);
   const [_historyIndex, _setHistoryIndex] = useState<number>(0);
@@ -29,13 +36,17 @@ export function useHistoryState<T>(
 
   function updateHistory(newVal: T) {
     _setHistory((prevHistory) => {
-      const newHistory: T[] = [
-        ...prevHistory.slice(0, _historyIndex + 1),
-        newVal,
-      ];
+      let newHistory = [...prevHistory.slice(0, _historyIndex + 1), newVal];
+      let newIndex = _historyIndex + 1;
+      if (newHistory.length > maxHistory) {
+        newHistory.shift();
+        if (newIndex > newHistory.length - 1) newIndex = newHistory.length - 1;
+      }
+      _setHistoryIndex(newIndex);
+      console.log(newHistory);
       return newHistory;
     });
-    _setHistoryIndex((prevIndex) => prevIndex + 1);
+
     changeCounter.current = 0;
   }
 
@@ -73,6 +84,7 @@ export function useHistoryState<T>(
       if (prevIndex > 0) {
         const newIndex = prevIndex - 1;
         _setState(_history[newIndex]);
+
         return newIndex;
       }
       return prevIndex;
